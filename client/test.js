@@ -57,3 +57,21 @@ console.log(g.bag.slice(0,5));
 // console.log(this.bag.length);
 console.log(g.takeFromBag(10));
 console.log(JSON.stringify(g.bag.slice(0, 5)) === JSON.stringify(g.takeFromBag(10)));
+
+
+// isValid testing
+console.log(isValid('h*llo'));
+console.log(isValid('iwoiqd0jsilda'));
+console.log(isValid('h**lo'));
+console.log(isValid('hel**'));
+console.log(isValid('whduqdqlk'));
+
+// testing the asynchronicity of the code
+const loaded = await dictionary.loadDictionary();
+console.log(loaded);
+console.log(dictionary.getWords());
+console.log((dictionary.words));
+r.takeFromBag(7, g);
+console.log(r.getAvailableTiles());
+console.log(possibleWords(r.getAvailableTiles()));
+
