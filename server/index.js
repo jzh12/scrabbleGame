@@ -38,7 +38,6 @@ app.get('/highestGameScores', async(req, res) => {
   res.status(200).send(await database.top10GameScores());
 });
 
-// EVERYTHING BELOW THIS WILL WORK AFTER YOU IMPLEMENT THE ABOVE
 
 // This matches all routes that are not defined.
 app.all('*', async (request, response) => {
@@ -48,17 +47,8 @@ app.all('*', async (request, response) => {
 // Start the server.
 app.listen(port, () => {
   // This is totally just for fun!
-  const banner = `
-  .d8888b.                            888      888      888          
-  d88P  Y88b                           888      888      888          
-  Y88b.                                888      888      888          
-   "Y888b.    .d8888b 888d888  8888b.  88888b.  88888b.  888  .d88b.  
-      "Y88b. d88P"    888P"       "88b 888 "88b 888 "88b 888 d8P  Y8b 
-        "888 888      888     .d888888 888  888 888  888 888 88888888 
-  Y88b  d88P Y88b.    888     888  888 888 d88P 888 d88P 888 Y8b.     
-   "Y8888P"   "Y8888P 888     "Y888888 88888P"  88888P"  888  "Y8888                                                                       
-`;
-  const msg = `${banner}\n     Server started on http://localhost:${port}`;
+
+  const msg = `Server started on http://localhost:${port}`;
   const rainbow = chalkAnimation.rainbow(msg);
 
   // Have the rainbow stop so we can log stuff to the console.
