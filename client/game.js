@@ -21,7 +21,7 @@ function shuffle(array) {
 
 export class Game {
   constructor() {
-    // initiallize our gam based on a current board if one exists in local storage
+    // initialize our gam based on a current board if one exists in local storage
     // here we update the board and the current bag for our tiles
     if (window.localStorage.getItem('grid') !== null && window.localStorage.getItem('bag') !== null) {
       this.grid = JSON.parse(window.localStorage.getItem('grid'));
