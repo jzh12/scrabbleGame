@@ -2,6 +2,7 @@ import { scoring } from './scoring.js';
 
 function shuffle(array) {
   // Fisher-Yates shuffle, used for random decoder cipher below
+  // used below to allow us to randomly shuffle our future array of given tiles
   let m = array.length;
 
   // While there remain elements to shuffle…
@@ -20,13 +21,14 @@ function shuffle(array) {
 
 export class Game {
   constructor() {
-    if (
-      window.localStorage.getItem('grid') !== null &&
-      window.localStorage.getItem('bag') !== null
-    ) {
+    // initiallize our gam based on a current board if one exists in local storage
+    // here we update the board and the current bag for our tiles
+    if (window.localStorage.getItem('grid') !== null && window.localStorage.getItem('bag') !== null) {
       this.grid = JSON.parse(window.localStorage.getItem('grid'));
       this.bag = JSON.parse(window.localStorage.getItem('bag'));
-    } else {
+    } 
+    // otherwise we start a new game state
+    else {
       this.reset();
     }
   }
@@ -36,7 +38,7 @@ export class Game {
    * It will NOT update visually, hence render should be called after resetting.
    */
   reset() {
-    // Initialize the bag.
+    // Initialize the bag, this represents all the possible tiles in a scrabble game
     const frequencies = {
       '*': 2,
       a: 9,
@@ -67,6 +69,7 @@ export class Game {
       z: 1,
     };
 
+    // we are now setting the grid for scrabble
     this.grid = [];
     for (let i = 1; i <= 15; ++i) {
       this.grid[i] = [];
@@ -75,14 +78,15 @@ export class Game {
       }
     }
 
-    // Create the bag
+    // Create the bag (set of tiles for our games)
     this.bag = [];
     for (let letter in frequencies) {
       for (let i = 0; i < frequencies[letter]; ++i) {
         this.bag.push(letter);
       }
     }
-
+    
+    // shuffle the bag
     this.bag = shuffle(this.bag);
 
     // Save current state to local storage
@@ -90,20 +94,30 @@ export class Game {
     window.localStorage.setItem('bag', JSON.stringify(this.bag));
   }
 
+  // this method is used for rendering our grid and current set of tiles from the bag to the screen
   render(element) {
+    // initially empty out cur HTML element's inner HTML
     element.innerHTML = '';
 
     for (let i = 1; i <= 15; ++i) {
       for (let j = 1; j <= 15; ++j) {
+        // for each tile on the board, create a div for it
         const div = document.createElement('div');
+        // give it a class of 'grid-item' to make the CSS class apply
         div.classList.add('grid-item');
+        // if a letter has been played on this tile, then update it, otherwise keep it empty
         div.innerText = this.grid[i][j] === null ? '' : this.grid[i][j];
-
+        
+        // this is to add a scoring multiplier to the current tile, if it has a bonus score multiplier, we change the color accordingly
+        // based on which multiplier these tiles are on
+        // multipliers allow the point values per character played to increase
         const label = scoring.label(i, j);
         if (label !== '') {
+          // add the multiplier class if one exists 
           div.classList.add(label);
         }
-
+        
+        // append a child div to HTML element passed in
         element.appendChild(div);
       }
     }
@@ -113,6 +127,7 @@ export class Game {
    * A utility function to persist the current state of the bag.
    */
   _saveBag() {
+    // save the current bag to local storage
     window.localStorage.setItem('bag', JSON.stringify(this.bag));
   }
 
@@ -120,6 +135,7 @@ export class Game {
    * A utility function to persist the current state of the grid.
    */
   _saveGrid() {
+    // saves the current grid to local storage
     window.localStorage.setItem('grid', JSON.stringify(this.grid));
   }
 
@@ -155,6 +171,7 @@ export class Game {
     return this.grid;
   }
 
+  // helper function to determine whether this word can be placed on the board at the given positions
   _canBePlacedOnBoard(word, position, direction) {
     const grid = this.grid;
     const letters = word.split('');
@@ -163,8 +180,10 @@ export class Game {
       : letters.map((letter, i) => grid[position.x][position.y + i] === null);
 
     return !placement.includes(false);
+
   }
 
+  // function to actually play the word on the board
   _placeOnBoard(word, position, direction) {
     const grid = this.grid;
     const letters = word.split('');
@@ -205,7 +224,7 @@ export class Game {
     // Save the state of the board
     this._saveGrid();
 
-    // Compute the score
+    // Compute the score of the word played
     return scoring.score(word, position, direction);
   }
 }

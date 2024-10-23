@@ -2,11 +2,11 @@
 class Dictionary {
   /** Creates an empty dictionary. */
   constructor() {
-    // Initialize the status to "not loaded".
-    //   - Other options are "loaded" and "unavailable".
+    // Initialize the status to "not loaded"
+    //   - Other options are "loaded" and "unavailable"
     this.status = 'not loaded';
 
-    // Initialize the dictionary to an empty array.
+    // Initialize the dictionary to an empty array
     this.words = [];
   }
 
@@ -21,18 +21,20 @@ class Dictionary {
    * false otherwise.
    */
   async loadDictionary() {
+    // our dict of words to use
     const response = await fetch('dictionary.json');
     if (response.ok) {
       this.words = await response.json();
       this.status = 'loaded';
       return true;
-    } else {
+    } 
+    else {
       this.status = 'unavailable';
       return false;
     }
   }
 
-  /** Returns true if the dictionary is loaded; false otherwise. */
+  /** Returns true if the dictionary is loaded, false otherwise */
   isLoaded() {
     return this.status === 'loaded';
   }
@@ -42,13 +44,13 @@ class Dictionary {
     return this.words;
   }
 
-  /** Returns the status */
+  /** Returns the status of the dict*/
   getStatus() {
     return this.status;
   }
 }
 
-// The one and only dictionary object.
+// dictionary instance to export
 const dictionary = new Dictionary();
 
 export { dictionary };

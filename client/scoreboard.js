@@ -3,7 +3,7 @@ class WordScoreBoard {
     this.words = [];
   }
 
-  // TODO #8: Save the word score to the server
+  // method for calling the wordScore endpoint to save a the player playing the word, word, and the score of the word to the db
   async saveWordScore(name, word, score) {
     this.words.push({name, word, score});
     try {
@@ -18,6 +18,7 @@ class WordScoreBoard {
     } 
   }
 
+  // renders the board based on the words played
   render(element) {
     let html = '<h1>Word Scores</h1>';
     html += '<table>';
@@ -40,6 +41,7 @@ class GameScoreBoard {
     this.game = [];
   }
 
+  // render method for rendering the game scores to the scoreboard
   render(element) {
     let html = '<h1>Game Score</h1>';
     html += '<table>';
@@ -55,7 +57,8 @@ class GameScoreBoard {
     element.innerHTML = html;
   }
 
-  // TODO #9: Save the game score to the server
+
+  // this method is for calling the endpoint for saving our game scores
   async saveGameScore(name, score) {
     this.game.push({name, score});
     try {
@@ -72,14 +75,17 @@ class GameScoreBoard {
 }
 
 class TopWordAndGameScoreBoard {
-  // TODO #10: Render the top word and game scores
+
+  // this is for rendering the top 10 word scores and top 10 game scores, similar to above
   async render(element) {
     let wordHtml = '<h1>Top Word Scores</h1>';
     wordHtml += '<table>';
+    // we make a call to fetch the top 10 words 
     const wordResponse = await fetch('/highestWordScores', {
       method: 'GET',
         headers: {'Content-Type': 'application/json',},
     });
+    // we take the response and await until it resolves to JSON
     const top10Words = await wordResponse.json();
     top10Words.forEach(curWord => {
       wordHtml += `
@@ -94,10 +100,12 @@ class TopWordAndGameScoreBoard {
   
     let gameHtml = '<h1>Top Game Scores</h1>';
     gameHtml += '<table>'
+    // we make a call to fetch the top 10 game scores
     const gameResponse = await fetch('/highestGameScores', {
       method: 'GET',
         headers: {'Content-Type': 'application/json',},
     });
+    // we take the response and await until it resolves to JSON
     const top10Games = await gameResponse.json();
     top10Games.forEach(curGame => {
       gameHtml += `

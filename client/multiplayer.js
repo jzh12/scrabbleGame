@@ -1,14 +1,14 @@
-// A few utility functions to work with local storage.
+// A few utility functions to work with local storage
 const saveState = (key, value) =>
   window.localStorage.setItem(key, JSON.stringify(value));
 const restoreState = (key) => JSON.parse(window.localStorage.getItem(key));
 const removeState = (key) => window.localStorage.removeItem(key);
 const isSaved = (key) => window.localStorage.getItem(key) !== null;
 
-// An array to remember player names.
+// An array to remember player names
 const playerNames = [];
 
-// A function to get the player names.
+// A function to get the player names
 export const getPlayerName = (i) => playerNames[i];
 
 /**
@@ -31,11 +31,11 @@ const turnLabel = (playerNumber) => {
  * Returns a input text box DOM element.
  *
  * We also create an event listener to update the player's name in the turn
- * label if the user types in a different name.
+ * label if the user types in a different name. This is used to create a DOM element for the user to enter their name.
  *
  * @param {number} playerNumber the player number
  * @param {HTMLDomElement} turnLabel the label for the current player's turn
- * @returns
+ * @returns a newly created input text box DOM element.
  */
 const playerTextBox = (playerNumber, turnLabel) => {
   const playerName = `Player ${playerNumber}`;
@@ -50,11 +50,11 @@ const playerTextBox = (playerNumber, turnLabel) => {
     turnLabel.innerHTML = `<p>It is <strong>${playerName}</strong>'s turn</p>`;
     saveState(`player-${playerNumber}`, playerName);
 
-    // Update the player names array with new player name.
+    // Update the player names array with new player name
     playerNames[playerNumber - 1] = playerName;
   });
 
-  // Add the player name to the array of player names.
+  // Add the player name to the array of player names
   playerNames[playerNumber - 1] = inputElm.value;
 
   return inputElm;
@@ -62,7 +62,7 @@ const playerTextBox = (playerNumber, turnLabel) => {
 
 /**
  * Returns a DOM element representing a player's view. This includes the player
- * text box and rack.
+ * text box and rack. This essentially allows us to switch POVs between players.
  *
  * @param {HTMLDomElement} playerTextBox the input text box for the player name
  * @param {Rack} rack the rack for the current player
@@ -103,28 +103,28 @@ export const multiPlayerView = (element, racks, turn, reset = false) => {
     }
   }
 
-  // Create the div that will hold both player views.
+  // Create the div that will hold both player views
   const multiPlayerViewElm = document.createElement('div');
 
   // Create the turn label. We do this outside of the loop because it needs to
-  // be accessed by both player text boxes.
+  // be accessed by both player text boxes
   const turnLabelElm = turnLabel(turn + 1);
 
-  // Add the current player's turn label to the multi player view.
+  // Add the current player's turn label to the multi player view
   multiPlayerViewElm.appendChild(turnLabelElm);
 
-  // Create each player text box and player view.
+  // Create each player text box and player view
   for (let i = 0; i < playerCount; ++i) {
     const playerTextBoxElm = playerTextBox(i + 1, turnLabelElm);
     const playerViewElm = playerView(playerTextBoxElm, racks[i]);
-    // Disable the text box if not current turn.
+    // Disable the text box if not current turn
     playerTextBoxElm.disabled = i !== turn;
 
-    // Add the player view to the multi player view.
+    // Add the player view to the multi player view
     multiPlayerViewElm.appendChild(playerViewElm);
   }
 
-  // Add the multi player view to the element.
+  // Add the multi player view to the element
   element.appendChild(multiPlayerViewElm);
 
   return element;

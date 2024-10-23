@@ -13,6 +13,7 @@ export class Rack {
     return this.available;
   }
 
+  // the method we use to render our rack tiles to the UI
   render(element) {
     element.innerHTML = '';
     for (const letter in this.available) {
