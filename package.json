@@ -1,12 +1,12 @@
 {
-  "name": "homework-06",
+  "name": "scrabble",
   "version": "1.0.0",
   "description": "",
   "type": "module",
   "scripts": {
     "start": "node server/index.js"
   },
-  "author": "Tim Richards",
+  "author": "Justin Huang",
   "license": "ISC",
   "dependencies": {
     "chalk-animation": "^2.0.2",
