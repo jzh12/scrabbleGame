@@ -43,7 +43,7 @@ console.log(g.getGrid());
 
 // placing tiles test
 
-testing taking tiles from bag, using game and rack
+// testing taking tiles from bag, using game and rack
 console.log(g.bag.slice(0, 10)); // goes from index 0 to 10 non inclusive (so really 0 to 9)
 console.log(g.takeFromBag(10));
 console.log(g.bag.length); // should be 90

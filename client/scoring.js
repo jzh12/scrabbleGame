@@ -15,7 +15,7 @@ class Scoring {
    *
    *  - x: the x coordinate of the position
    *  - y: the y coordinate of the position
-   *  - kind: 'ws' or 'ls' (for word score and letter score respectively)
+   *  - kind: 'ws' or 'ls' (for word score and letter score respectively), whether to multiply the word's score or the letter score
    *  - multiplier: the multiplier for the position (2 or 3)
    */
   constructor() {
@@ -77,6 +77,7 @@ class Scoring {
     // Compute the total score with the word multiplier
     score *= wordMultiplier;
 
+    // this returned score will have computed the score based on the spaces it spans, accounting for any letter and word multipliers
     return score;
   }
 
@@ -98,7 +99,9 @@ class Scoring {
    */
   label(x, y) {
     const multiplier = this.board[x][y];
+    // this is based on if we can find a multiplier given this x and y
     if (multiplier) {
+      // if so, we return the type of multiplier (LS or WS multiplier) given the coords
       return `${multiplier.kind.toUpperCase()}x${multiplier.multiplier}`;
     }
     return '';
@@ -236,5 +239,5 @@ const positionMultipliers = [
   { x: 15, y: 15, kind: 'ws', multiplier: 3 },
 ];
 
-// Export the one and only Scoring object.
+// Export the Scoring objec
 export const scoring = new Scoring();

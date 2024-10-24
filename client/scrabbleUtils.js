@@ -44,14 +44,14 @@ function canConstructWord(availableTiles, word) {
 }
 
 /**
- * This function tris to build a word given a set of available tiles. It will
+ * This function tries to build a word given a set of available tiles. It will
  * prioritize letter tiles over wildcards. It will return the list of tiles
  * used, or null if the word is not constructible with the given tiles.
  *
  * @param {Object<string, number>} availableTiles A collection of available
  * tiles and their amount.
  * @param {string} word The word a player wants to construct.
- * @returns {Array<string>} The letters used to construct the word, or null if
+ * @returns {Array<string> | null}  The letters used to construct the word, or null if
  * it is not constructible with the tiles.
  */
 function constructWord(availableTiles, word) {
